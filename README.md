@@ -16,3 +16,6 @@ En este GIT solo se da el ejemplo para poder integrar Tensorflow en un nodo de R
   rosrun turtlesim turtlesim_node
 3. Cambiar ruta del modelo entrenado.
 4. Correr nodo "tensorflow_turtle" e ingresar coordenadas para la tortuga.
+
+Inline-style: 
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
