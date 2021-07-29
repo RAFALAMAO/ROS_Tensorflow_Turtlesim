@@ -6,8 +6,8 @@ from turtlesim.msg import Pose
 import tensorflow as tf
 import tensorflow.compat.v1 as tf_v1
 
-# Para poder utilizar tf1, ya que tfv2 funciona con 
-# tf_v1.disable_eager_execution() 
+# Para poder utilizar tf1, ya que tfv2 funciona con eager y no directamente con las sesiones
+tf_v1.disable_eager_execution() 
 
 # Definiendo clases necesarias para cargar el modelo de tensorflow y crear
 # la funcion para realizar la prediccion
@@ -21,12 +21,12 @@ class ModelWrapper():
 		self.model = tf_v1.keras.models.load_model('/home/aaron/noetic_ws/src/beginner_tutorials/scripts/21_ControlTensorFlow/turtleTFmodel')
 		
 	def predict(self, x):
-		with self.session.graph.as_default():
+		with self.session.graph.as_default(): # Con la misma sesion de TF, se realizan las predicciones del modelo
 			tf_v1.keras.backend.set_session(self.session)
 			out = self.model.predict(np.array([x]))
 			return out
 
-class RosTfInterface():
+class RosTfInterface(): # Se realiza la clase para inicializar y crear el modelo 
     def __init__(self):
         self.wrapped_model = ModelWrapper()
 
@@ -51,7 +51,7 @@ def red_neuronal(x):
 	Xmax_Xmin = np.array([2.0, 6.32746, 4.72226])
 	x_N= (x-Xmin)/Xmax_Xmin 	
 
-	y_N = rtf.wrapped_model.predict(x_N)[0]
+	y_N = rtf.wrapped_model.predict(x_N)[0] # Aqui se utiliza el objeto rtf y el metodo para predecir
 	
 	# Desnormaliza la salida
 	Ymin = np.array([ 0.0, -1.1781])
@@ -96,7 +96,7 @@ def controller():
 if __name__ == '__main__':
 	try:		
 		rospy.init_node('Neuro_Turtle',anonymous=True)
-		rtf = RosTfInterface()
+		rtf = RosTfInterface() # Se inicializa la red y la sesion de TF, con el objeto rtf
 		rospy.Subscriber('/turtle1/pose',Pose,turtle_cb)
 		velocity_publisher = rospy.Publisher('/turtle1/cmd_vel',Twist, queue_size=10)
 		rospy.spin()
