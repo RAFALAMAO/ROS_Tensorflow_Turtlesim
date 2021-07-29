@@ -9,3 +9,10 @@ En este GIT solo se da el ejemplo para poder integrar Tensorflow en un nodo de R
 1. La carpeta "turtleTFmodel" se crea al momento de guardar el modelo ya entrenado con la funcion "model.save()", esto se puede consultar en https://www.tensorflow.org/tutorials/keras/save_and_load, por ejemplo:
   model.save('tfModel/turtleTFmodel', save_format='HDF5')
 2. La integración con ROS se basó en https://jacqueskaiser.com/posts/2020/03/ros-tensorflow
+
+# Uso
+1. Correr roscore.
+2. Correr nodo simulador tortuga.
+  rosrun turtlesim turtlesim_node
+3. Cambiar ruta del modelo entrenado.
+4. Correr nodo "tensorflow_turtle" e ingresar coordenadas para la tortuga.
